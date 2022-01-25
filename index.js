@@ -1,43 +1,33 @@
-import sortable from 'sortablejs';
+import Sortable from 'sortablejs';
 
+export function dragdrop() {
+  const ts = this;
+  if (ts.settings.mode !== 'multi') return;
+  let sorter;
 
-export default function(select) {
-	const {control, settings, lock: oldLock, unlock: oldUnlock} = select;
-	if (settings.mode !== 'multi') return;
+  ts.hook('before', 'lock', () => sorter?.option("disabled", true));
+  ts.hook('before', 'unlock', () => sorter?.option("disabled", false));
 
-	select.hook('instead', 'lock', () => {
-		let sortable = $(control).data('sortable');
-		if (sortable) sortable.disable();
-		return oldLock.call(self);
-	});
+  ts.on('initialize', () => {
+    const {control, isLocked} = ts;
+    sorter = new Sortable(control, {
+      draggable: '[data-value]',
+      dataIdAttr: 'data-value',
+      direction: 'horizontal',
+      disabled: !! isLocked,
+      ghostClass: "ts-element__ghost",
+      onStart(e) {
+        const {item, clone} = e;
+        clone.style.width = getComputedStyle(item).width;
+        control.style.overflow = 'visible';
+      },
+      onStop(e) {
+        //const {item} = e;
+        control.style.overflow = 'hidden';
+        ts.setValue(sorter.toArray().filter(a => a));
+      }
+    });
+  });
+}
 
-	select.hook('instead', 'unlock', () => {
-		let sortable = $(control).data('sortable');
-		if (sortable) sortable.enable();
-		return oldUnlock.call(self);
-	});
-
-	select.on('initialize', () => {
-		let $control = $(control).sortable({
-			items: '[data-value]',
-			forcePlaceholderSize: true,
-			disabled: select.isLocked,
-			start: (e, ui) => {
-				ui.placeholder.css('width', ui.helper.css('width'));
-				$control.css({overflow: 'visible'});
-			},
-			stop: () => {
-				$control.css({overflow: 'hidden'});
-
-				let values = [];
-				$control.children('[data-value]').each((el) => {
-					if(el.dataset.value) values.push(el.dataset.value);
-				});
-
-				select.setValue(values);
-			}
-		});
-
-	});
-
-};
+export default dragdrop;
