@@ -21,8 +21,7 @@ export function dragdrop() {
         clone.style.width = getComputedStyle(item).width;
         control.style.overflow = 'visible';
       },
-      onStop(e) {
-        //const {item} = e;
+      onStop() {
         control.style.overflow = 'hidden';
         ts.setValue(sorter.toArray().filter(a => a));
       }
