@@ -5,24 +5,24 @@ export function dragdrop() {
   if (ts.settings.mode !== 'multi') return;
   let sorter;
 
-  ts.hook('before', 'lock', () => sorter?.option("disabled", true));
-  ts.hook('before', 'unlock', () => sorter?.option("disabled", false));
+  ts.hook('before', 'lock', () => sorter && sorter.option("disabled", true));
+  ts.hook('before', 'unlock', () => sorter && sorter.option("disabled", false));
 
   ts.on('initialize', () => {
     const {control, isLocked} = ts;
+    control.addEventListener('mousedown', (e) => {
+      const {target} = e;
+      const item = target.closest('.item');
+
+      // To prevent Tom Select stopping the drag event
+      if (item && control.contains(item)) e.stopPropagation();
+    })
     sorter = new Sortable(control, {
-      draggable: '[data-value]',
+      draggable: '[data-ts-item]',
       dataIdAttr: 'data-value',
       direction: 'horizontal',
       disabled: !! isLocked,
-      ghostClass: "ts-element__ghost",
-      onStart(e) {
-        const {item, clone} = e;
-        clone.style.width = getComputedStyle(item).width;
-        control.style.overflow = 'visible';
-      },
-      onStop() {
-        control.style.overflow = 'hidden';
+      onUpdate() {
         ts.setValue(sorter.toArray().filter(a => a));
       }
     });
