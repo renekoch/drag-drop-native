@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Native drag'n'drop plugin for tom-select",
   "type": "module",
-  "module": "index.js",
+  "main":"index.js",
   "repository": "git@github.com:renekoch/drag-drop-native.git",
   "author": "Rene Koch <renekoch@hotmail.com>",
   "license": "MIT",
