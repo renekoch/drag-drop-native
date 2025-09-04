@@ -1,6 +1,6 @@
 {
   "name": "drag-drop-native",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Native drag'n'drop plugin for tom-select",
   "keywords": [
     "tom-select",
