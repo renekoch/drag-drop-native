@@ -14,7 +14,7 @@ Select.define('drag_drop', dragdrop);
 const dom = document.querySelector('select#my-select');
 
 // Setup the select
-const select = new Select($dom, {
+const select = new Select(dom, {
     plugins: ['drag_drop'],
     ...
   });
