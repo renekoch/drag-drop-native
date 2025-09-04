@@ -1,6 +1,6 @@
 {
   "name": "drag-drop-native",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Native drag'n'drop plugin for tom-select",
   "keywords": [
     "tom-select",
@@ -16,6 +16,14 @@
     "options",
     "list"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/renekoch/drag-drop-native.git"
+  },
+  "bugs": {
+    "url": "https://github.com/renekoch/drag-drop-native/issues"
+  },
+  "homepage": "https://github.com/renekoch/drag-drop-native#readme",
   "type": "module",
   "main":"index.js",
   "repository": "git@github.com:renekoch/drag-drop-native.git",
